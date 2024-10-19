@@ -1,3 +1,6 @@
+
+{% assign main_menu_linklist = linklists[section.settings.header_menu].links %}
+
 <div class="relative bg-white">
   <div class="mx-auto px-4 sm:px-6">
     <div class="flex justify-center items-center py-6 md:justify-start md:space-x-10">
@@ -16,7 +19,7 @@
 
       <!-- NAVIGATION MENU Desktop -->
       <nav x-data="{open: false}" class="hidden md:flex space-x-10">
-        {% for link in linklists['main-menu'].links %}
+        {% for link in main_menu_linklist %}
           {% if link.links != blank %}
             <div class="relative">
               <button
@@ -125,3 +128,19 @@
     </div>
   </div>
 </div>
+
+
+
+{% schema %}
+  {
+    "name":"Navigational Bar",
+    "settings": [
+      {
+      "type": "link_list",
+      "id": "header_menu",
+      "label": "Select the header menu",
+      "default": "main-menu"
+      }
+    ]
+  }
+{% endschema %}
