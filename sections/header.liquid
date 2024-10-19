@@ -6,8 +6,13 @@
     <div class="flex justify-center items-center py-6 md:justify-start md:space-x-10">
       <!-- STORE NAME / STORE LOGO -->
       <div class="flex justify-start lg:flex-1 truncate">
-        <a href="http://127.0.0.1:9292/">
-          <h1 class="text-xl font-bold truncate">{{ shop.name }}</h1>
+        <a href="{{shop.secure_url }}">
+       
+          {% if section.settings.logo != blank %}
+            <img src="{{section.settings.logo | image_url }}"  width="120px" height="auto">
+            {%else %}
+            <h1 class="text-xl font-bold truncate">{{ shop.name }}</h1>
+          {% endif %}
         </a>
       </div>
       <!-- STEP 1: CREATE THE HAMBURGER MENU BUTTON -->
@@ -136,6 +141,12 @@
     "name":"Navigational Bar",
     "settings": [
       {
+        "type": "image_picker",
+        "id":"logo",
+        "label":"Upload your logo"
+      },
+      {
+
       "type": "link_list",
       "id": "header_menu",
       "label": "Select the header menu",

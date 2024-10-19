@@ -1,0 +1,49 @@
+
+
+<div class="flex justify-center align-middle flex-col text-center">
+
+    <h1 class="text-5xl text-green-600 pt-10">{{ section.settings.error_alart }}</h1>
+
+    <p class="my-5">T{{ section.settings.short_text }}
+
+    </p>
+    <div class="pt-6">
+
+        <a class="p-5 bg-green-600 text-white" href="{{ section.settings.button_link }}">{{ section.settings.button_text }} </a>
+    </div>
+    
+    
+</div>
+
+
+{% schema %}
+    {
+        "name":"Template 404 Setings",
+        "settings": [
+            {
+            "type": "text",
+            "id": "error_alart",
+            "label": "Enter 404 alart title",
+            "default": "404 Error"
+            },
+            {
+                "type": "text",
+                "id": "short_text",
+                "label": "Enter the short text of 404",
+                "default": "The page you are looking for is not available now"
+                },
+                {
+                "type": "url",
+                "id": "button_link",
+                "label": "Enter your home link"
+                },
+                {
+                "type": "text",
+                "id":"button_text",
+                "label":"enter the button text",
+                "default":"Back To Home"
+                }
+        ]
+    }
+{% endschema %}
+
