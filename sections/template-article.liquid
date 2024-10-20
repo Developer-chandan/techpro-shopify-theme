@@ -1,1 +1,73 @@
-<h1>This is article template</h1>
+{% for block in section.blocks %}
+    {% case block.type %}
+        {% when "article_title" %}
+
+            <h1>{{ article.title }}</h1>
+        {% when "article_author" %}
+
+            <small>{{ article.author }}</small>
+        {% when "article_published_date" %}
+            <time datetime="{{ article.published_at | date:"%y-%m-%d" }}">{{ article.published_at | date:"%y - %m - %d" }}</time>
+        {% when "featured_image" %}
+            <img src="{{article.image | image_url }}" width="auto" height="auto">
+        {% when "article_content" %}
+            <div>{{ article.content }}</div>
+        {% else %}
+            
+    {% endcase %}
+{% endfor %}
+
+
+
+
+
+
+
+
+{% schema %}
+    {
+        
+        "name":"Article Schema",
+        "settings": [
+            {
+            "type": "header",
+            "content": "Edit Article"
+            },
+            {
+            "type": "text",
+            "id": "article_title",
+            "label":"Add article title"
+            }
+        ],
+        "blocks": [
+
+            {
+            "type": "article_title",
+            "name": "Article title",
+            "limit": 1
+            },
+            {
+            "type": "article_author",
+            "name": "Author Name",
+            "limit": 1
+             },
+             {"type":"article_published_date",
+            "name":"Published Date",
+            "limit" : 1
+            },
+            {
+                "type": "featured_image",
+                "name": "Featured Image",
+                "limit": 1
+            },
+            {
+                "type": "article_content",
+                "name": "Content",
+                "limit": 1
+            }
+        ]
+
+
+
+    }
+{% endschema %}
