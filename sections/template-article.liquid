@@ -1,73 +1,109 @@
-{% for block in section.blocks %}
+<article class="flex justify-center items-center flex-col w-8/12 mx-auto">
+  {% for block in section.blocks %}
     {% case block.type %}
-        {% when "article_title" %}
-
-            <h1>{{ article.title }}</h1>
-        {% when "article_author" %}
-
-            <small>{{ article.author }}</small>
-        {% when "article_published_date" %}
-            <time datetime="{{ article.published_at | date:"%y-%m-%d" }}">{{ article.published_at | date:"%y - %m - %d" }}</time>
-        {% when "featured_image" %}
+      {% when 'article_title' %}
+        <div class="py-5 text-2xl font-bold text-blue-950">
+          <h1>{{ article.title }}</h1>
+        </div>
+      {% when 'article_author' %}
+        <small>{{ article.author }}</small>
+      {% when 'article_published_date' %}
+        <time datetime="{{ article.published_at | date:"on_date" }}">
+          {{- article.published_at | date: '%y - %m - %d' -}}
+        </time>
+      {% when 'featured_image' %}
+        {% if article.image != blank %}
+          <div class="w-[550px] object-cover overflow-hidden">
             <img src="{{article.image | image_url }}" width="auto" height="auto">
-        {% when "article_content" %}
-            <div>{{ article.content }}</div>
+          </div>
+
         {% else %}
-            
+          {% assign placeholder_image = 'lifestyle-2' %}
+          {{ placeholder_image | placeholder_svg_tag: 'w-[500px] object-cover' }}
+        {% endif %}
+
+      {% when 'article_content' %}
+        <div class="p-8">{{ article.content }}</div>
+      {% else %}
+
     {% endcase %}
-{% endfor %}
+  {% endfor %}
+</article>
 
+<section>
+  {% if article.comments_enabled? %}
+    {% if article.comments_count > 0 %}
+    {% endif %}
 
+  {% else %}
+    No comments
+  {% endif %}
+  <div class=" w-20 mx-auto">
+    {% form 'new_comment', article %}
+      <div class="flex justify-between gap-6">
+        <div class="border p-2 my-2">
+          <label for="comment_name"
+            >Name
+            <input placeholder="John Doe" type="text" name="comment[author]" id="comment_name">
+          </label>
+        </div>
+        <div class="border p-2 my-2">
+          <label for="comment_email"
+            >Email
+            <input type="email" placeholder="john@doe.com" name="comment[email]" id="comment_email">
+          </label>
+        </div>
+      </div>
+      <div class="w-full border p-2 my-2">
+        <label>Comment</label>
+        <textarea name="comment[body]" placeholder="Write your message">
 
+        </textarea>
+      </div>
 
-
-
-
+      <div>
+        <input type="submit" value="Submit Now" class="block bg-blue-500 text-white border px-8 py-2">
+      </div>
+    {% endform %}
+  </div>
+</section>
 
 {% schema %}
+{
+  "name": "Article Schema",
+  "settings": [
     {
-        
-        "name":"Article Schema",
-        "settings": [
-            {
-            "type": "header",
-            "content": "Edit Article"
-            },
-            {
-            "type": "text",
-            "id": "article_title",
-            "label":"Add article title"
-            }
-        ],
-        "blocks": [
-
-            {
-            "type": "article_title",
-            "name": "Article title",
-            "limit": 1
-            },
-            {
-            "type": "article_author",
-            "name": "Author Name",
-            "limit": 1
-             },
-             {"type":"article_published_date",
-            "name":"Published Date",
-            "limit" : 1
-            },
-            {
-                "type": "featured_image",
-                "name": "Featured Image",
-                "limit": 1
-            },
-            {
-                "type": "article_content",
-                "name": "Content",
-                "limit": 1
-            }
-        ]
-
-
-
+      "type": "header",
+      "content": "Edit Article"
+    },
+    {
+      "type": "text",
+      "id": "article_title",
+      "label": "Add article title"
     }
+  ],
+  "blocks": [
+    {
+      "type": "article_title",
+      "name": "Article title",
+      "limit": 1
+    },
+    {
+      "type": "article_author",
+      "name": "Author Name",
+      "limit": 1
+    },
+    { "type": "article_published_date", "name": "Published Date", "limit": 1 },
+    {
+      "type": "featured_image",
+      "name": "Featured Image",
+      "limit": 1
+    },
+    {
+      "type": "article_content",
+      "name": "Content",
+      "limit": 1
+    }
+  ]
+}
 {% endschema %}
