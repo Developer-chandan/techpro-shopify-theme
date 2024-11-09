@@ -33,6 +33,29 @@
 <section>
   {% if article.comments_enabled? %}
     {% if article.comments_count > 0 %}
+
+        {% paginate article.comments by 5 %}
+          {% for comment in article.comments %}
+            <div class="my-0 w-96 mx-auto pb-7">
+              <div class=" gap-4">
+                <h1 class="text-xl font-bold">{{ comment.author }}</h1>
+                <span class="text-xs">{{ article.created_at | date: '%B %d, %Y' }}</span>
+              </div>
+              <p class="font-medium">{{ comment.content }}</p>
+            </div>
+        
+          {% endfor %}
+          <div class="flex justify-center">
+            <div class="w-40">
+              {% if paginate.pages > 1 %}
+                {{ paginate | default_pagination }}
+              {% endif %}
+            </div>
+          </div>
+     
+     
+        {% endpaginate %}
+       
     {% endif %}
 
   {% else %}
@@ -41,28 +64,43 @@
   <div class=" w-20 mx-auto">
     {% form 'new_comment', article %}
       <div class="flex justify-between gap-6">
-        <div class="border p-2 my-2">
-          <label for="comment_name"
-            >Name
-            <input placeholder="John Doe" type="text" name="comment[author]" id="comment_name">
-          </label>
+        <div class="p-2 my-2">
+          <label for="comment_name">Name</label>
+          <input
+            placeholder="John Doe"
+            type="text"
+            name="comment[author]"
+            id="comment_name"
+            class="py-2 px-8 outline-none border border-cyan-200"
+          >
         </div>
         <div class="border p-2 my-2">
-          <label for="comment_email"
-            >Email
-            <input type="email" placeholder="john@doe.com" name="comment[email]" id="comment_email">
-          </label>
+          <label for="comment_email">Email </label>
+          <input
+            type="email"
+            placeholder="john@doe.com"
+            name="comment[email]"
+            id="comment_email"
+            class="py-2 px-8 outline-none border border-cyan-200"
+          >
         </div>
       </div>
-      <div class="w-full border p-2 my-2">
+      <div class="w-72 my-2">
         <label>Comment</label>
-        <textarea name="comment[body]" placeholder="Write your message">
+        <textarea
+          name="comment[body]"
+          row="30"
+          cols="120"
+          placeholder="Write your message"
+          class="w-full border"
+          class="py-2 px-8 outline-none border border-cyan-200"
+        >
 
         </textarea>
       </div>
 
       <div>
-        <input type="submit" value="Submit Now" class="block bg-blue-500 text-white border px-8 py-2">
+        <input type="submit" value="Submit Now" class="cursor-pointer block bg-blue-500 text-white border px-8 py-2">
       </div>
     {% endform %}
   </div>
